@@ -5,8 +5,11 @@ namespace App\Service;
 use App\Entity\Character;
 use App\Entity\Fight;
 use App\Entity\History;
+use App\Repository\CharacterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use DateInterval;
+
 
 class FightService
 {
@@ -16,10 +19,78 @@ class FightService
     private Fight $currentFight;
     private EntityManagerInterface $manager;
     private History $history;
+    private CharacterRepository $characterRepository;
 
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(
+        EntityManagerInterface $manager,
+        CharacterRepository $characterRepository
+    )
     {
         $this->manager = $manager;
+        $this->characterRepository = $characterRepository;
+    }
+
+    public function initFight($data): array
+    {
+        $character1 = $this->characterRepository->find($data['idOpponent1']);
+        $character1HealthOriginal = $character1->getHealth();
+        $character2 = $this->characterRepository->find($data['idOpponent2']);
+        $character2HealthOriginal = $character2->getHealth();
+        $fight = new Fight();
+        $fight->addCharacter($character1);
+        $fight->addCharacter($character2);
+
+        $fightResult = $this->startFight($character1, $character2, $fight);
+        return $this->updateAfterFight(
+            $fight,
+            $fightResult,
+            $character1,
+            $character1HealthOriginal,
+            $character2,
+            $character2HealthOriginal
+        );
+    }
+
+    private function updateAfterFight(
+        $fight,
+        $fightResult,
+        $character1,
+        $character1HealthOriginal,
+        $character2,
+        $character2HealthOriginal
+    ): array {
+        $winner = $fightResult['winner'];
+        if ($winner->getId() == $character1->getId()) {
+            $character1->setHealth($character2HealthOriginal);
+            $characterWinner = $character1;
+            $character2->setHealth($character2HealthOriginal);
+            $characterLooser = $character2;
+        } else {
+            $character2->setHealth($character2HealthOriginal);
+            $characterWinner = $character2;
+            $character1->setHealth($character1HealthOriginal);
+            $characterLooser = $character1;
+        }
+
+        $fight->setWinner($characterWinner);
+        $this->manager->persist($fight);
+
+        $characterWinner->setRank($winner->getRank()+1);
+        $characterWinner->setSkillPoints($winner->getSkillPoints()+1);
+        $characterLooserRank = $characterLooser->getRank();
+        if ($characterLooserRank > 1) {
+            $characterLooser->setRank($characterLooserRank - 1);
+        }
+
+        $newDelayToPlay = new \DateTimeImmutable('now');
+        $newDelayToPlay = $newDelayToPlay->add(new DateInterval('PT60M'));
+
+        $characterLooser->setDelay($newDelayToPlay);
+        $this->manager->persist($characterWinner);
+        $this->manager->persist($characterLooser);
+        $this->manager->flush();
+
+        return [$fight];
     }
 
 
