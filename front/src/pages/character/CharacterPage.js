@@ -42,7 +42,7 @@ const CharacterPage = (props) => {
     }
 
     useEffect(() => {
-        if (id != "new") {
+        if (id !== "new") {
             fetchCharacter(id)
         }
     }, [id])
@@ -50,7 +50,7 @@ const CharacterPage = (props) => {
     const handleSubmit = async event => {
         event.preventDefault()
         try {
-            const result = id === "new" ?
+            id === "new" ?
                 (await CharactersAPI.add(character)) :
                 (await CharactersAPI.edit(id, character))
         } catch (error) {
@@ -60,7 +60,7 @@ const CharacterPage = (props) => {
 
     return (<>
 
-        <h1>{id === "new" && "Create a character" || character.name + " LvL " + character.rank}</h1>
+        <h1>{id === "new" ? "Create a character" : character.name + " LvL " + character.rank}</h1>
         <form onSubmit={handleSubmit}>
             <Field
                 name="name"
@@ -73,15 +73,6 @@ const CharacterPage = (props) => {
             <div className="row p-4">
                 Skill points to use : {character.skillPoints}
             </div>
-            {/*<Field*/}
-            {/*    name="skillPoints"*/}
-            {/*    label="Skill points"*/}
-            {/*    type="int"*/}
-            {/*    onChange={handleChange}*/}
-            {/*    value={character.skillPoints}*/}
-            {/*    error={errors.name}*/}
-            {/*/>*/}
-
 
             <div className="form-group pt-3">
                 <Link to="/characters" className="btn btn-link">

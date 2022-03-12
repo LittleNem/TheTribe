@@ -18,7 +18,7 @@ const FightHistory = ({
                 </div>
             )}
             {winner &&
-                <div id={winner} style={character.name !== winner && {color: "red"} || {color: "green"}}>
+                <div id={winner} style={character.name !== winner ? {color: "red"} : {color: "green"}}>
                     {winner} won !
                 </div>
             }

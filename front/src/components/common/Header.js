@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React  from "react";
 import AuthAPI from "../../services/AuthAPI";
 import {NavLink} from "react-router-dom";
 
@@ -12,7 +12,7 @@ const Header = ({isAuthenticated, onLogout, history}) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-                <a className="navbar-brand">The tribe game</a>
+                <a className="navbar-brand" href="/">The tribe game</a>
                 <div className="navbar-text">
                     <button className="navbar-toggler">
                         <span className="navbar-toggler-icon"></span>

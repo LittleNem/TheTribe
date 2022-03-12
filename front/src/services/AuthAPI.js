@@ -26,12 +26,6 @@ function setup() {
     }
 }
 
-function getCurrentUserId() {
-    if (isAuthenticated()) {
-
-    }
-}
-
 function isAuthenticated() {
     const token = window.localStorage.getItem("authToken")
     if (token) {

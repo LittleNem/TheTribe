@@ -16,10 +16,6 @@ function startFight(id1, id2) {
         .then(result => result.data["hydra:member"])
 }
 
-function fightHistory(id1, id2) {
-
-}
-
 export default {
     launch
 }
