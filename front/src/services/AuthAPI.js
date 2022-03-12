@@ -37,9 +37,11 @@ function isAuthenticated() {
     return false
 }
 
-export default {
+const authFunctionsList = {
     authenticate,
     logout,
     setup,
     isAuthenticated
 }
+
+export default authFunctionsList

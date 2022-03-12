@@ -29,10 +29,12 @@ function editCharacter(id, character) {
     return newCharacter
 }
 
-export default {
+const characterFunctionsList = {
     findAll,
     delete: deleteCharacter,
     getCharacter,
     add : addCharacter,
     edit: editCharacter
 }
+
+export default characterFunctionsList

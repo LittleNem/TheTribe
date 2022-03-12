@@ -16,6 +16,8 @@ function startFight(id1, id2) {
         .then(result => result.data["hydra:member"])
 }
 
-export default {
+const fightFunctionsList = {
     launch
 }
+
+export default fightFunctionsList
