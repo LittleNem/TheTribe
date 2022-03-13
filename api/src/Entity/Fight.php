@@ -24,11 +24,11 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
             'method' => 'POST',
             'path' => '/fights/launch',
             'controller' => FightController::class,
-            "read" => false,
+            'read' => false,
             'openapi_context' => [
                 'summary' => 'Launch fight with the opponent',
                 'description' => 'To launch fight with the opponent',
-            ]
+            ],
         ],
     ],
     normalizationContext: ['groups' => ['fights_read'], 'enable_max_depth' => true]
@@ -38,30 +38,30 @@ class Fight
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["fights_read", "character_read"])]
+    #[Groups(['fights_read', 'character_read'])]
     private $id;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(["fights_read", "character_read"])]
+    #[Groups(['fights_read', 'character_read'])]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Character::class, mappedBy: 'fights')]
-    #[Groups("fights_read")]
+    #[Groups('fights_read')]
     #[ApiSubresource(maxDepth: 1)]
     private $characters;
 
     #[ORM\ManyToOne(targetEntity: Character::class, inversedBy: 'fightsWon')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["fights_read"])]
+    #[Groups(['fights_read'])]
     #[MaxDepth(1)]
 
     private $winner;
 
     #[ORM\OneToMany(mappedBy: 'fight', targetEntity: History::class, orphanRemoval: true)]
-    #[Groups(["fights_read"])]
+    #[Groups(['fights_read'])]
     private $histories;
 
     public function __construct()

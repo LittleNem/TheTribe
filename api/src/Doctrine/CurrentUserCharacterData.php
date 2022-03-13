@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Security;
 
 class CurrentUserCharacterData implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
-
     private Security $security;
     private AuthorizationCheckerInterface $auth;
 
@@ -25,7 +24,7 @@ class CurrentUserCharacterData implements QueryCollectionExtensionInterface, Que
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
     {
         $user = $this->security->getUser();
-        if ($resourceClass === Character::class
+        if (Character::class === $resourceClass
             && !$this->auth->isGranted('ROLE_ADMIN')
         ) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
@@ -35,10 +34,6 @@ class CurrentUserCharacterData implements QueryCollectionExtensionInterface, Que
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param QueryNameGeneratorInterface $queryNameGenerator
-     * @param string $resourceClass
-     * @param string|null $operationName
      * @return mixed
      */
     public function applyToCollection(
@@ -51,12 +46,6 @@ class CurrentUserCharacterData implements QueryCollectionExtensionInterface, Que
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param QueryNameGeneratorInterface $queryNameGenerator
-     * @param string $resourceClass
-     * @param array $identifiers
-     * @param string|null $operationName
-     * @param array $context
      * @return mixed
      */
     public function applyToItem(

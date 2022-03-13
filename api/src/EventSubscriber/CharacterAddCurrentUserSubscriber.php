@@ -10,20 +10,13 @@ use Symfony\Component\Security\Core\Security;
 
 class CharacterAddCurrentUserSubscriber implements EventSubscriberInterface
 {
-
     private Security $security;
 
-    /**
-     * @param Security $security
-     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
 
-    /**
-     * @return array
-     */
     public function getSubscribedEvents(): array
     {
         return [Events::prePersist];

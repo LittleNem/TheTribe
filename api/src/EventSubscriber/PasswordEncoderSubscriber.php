@@ -13,15 +13,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PasswordEncoderSubscriber implements EventSubscriberInterface
 {
-
-    /**
-     * @var UserPasswordHasherInterface
-     */
     private UserPasswordHasherInterface $encoder;
 
-    /**
-     * @param UserPasswordHasherInterface $encoder
-     */
     public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
@@ -30,16 +23,17 @@ class PasswordEncoderSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    #[ArrayShape([KernelEvents::VIEW => "array"])]
+    #[ArrayShape([KernelEvents::VIEW => 'array'])]
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['encodePassword', EventPriorities::PRE_WRITE]
+            KernelEvents::VIEW => ['encodePassword', EventPriorities::PRE_WRITE],
         ];
     }
 
     /**
      * @param ViewEvent $event
+     *
      * @return void
      */
     #[NoReturn]
@@ -47,7 +41,7 @@ class PasswordEncoderSubscriber implements EventSubscriberInterface
     {
         $result = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
-        if ($result instanceof User && $method === "POST") {
+        if ($result instanceof User && 'POST' === $method) {
             $hashedPassword = $this->encoder->hashPassword($result, $result->getPassword());
             $result->setPassword($hashedPassword);
         }

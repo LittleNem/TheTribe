@@ -22,18 +22,18 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 20; ++$i) {
             $user = new User();
             $password = $this->passwordHasher->hashPassword(
                 $user,
-                "123456789"
+                '123456789'
             );
             $email = !$i ? 'thetribe@test.fr' : $faker->email;
             $user->setEmail($email)
                 ->setPassword($password);
             $manager->persist($user);
 
-            for ($c = 0; $c < mt_rand(0, 5); $c++) {
+            for ($c = 0; $c < mt_rand(0, 5); ++$c) {
                 $character = new Character();
                 $character->setName($faker->userName)
                     ->setHealth(mt_rand(10, 30))

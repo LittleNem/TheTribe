@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\UserController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`user`')]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
-    normalizationContext: ["groups" => "users_read"]
+    normalizationContext: ['groups' => 'users_read']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['email' => 'exact'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -24,28 +23,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["users_read"])]
+    #[Groups(['users_read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(["users_read"])]
+    #[Groups(['users_read'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["users_read"])]
+    #[Groups(['users_read'])]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\Column(type: 'datetime_immutable', options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'ownedBy', targetEntity: Character::class, orphanRemoval: true)]
-    #[Groups(["users_read"])]
+    #[Groups(['users_read'])]
     private $characters;
 
     public function __construct()
@@ -87,7 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     /**

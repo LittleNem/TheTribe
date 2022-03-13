@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'openapi_context' => [
                 'summary' => 'Choose an opponent to current character',
                 'description' => 'Get the better opponent for the current character according to his level',
-            ]
+            ],
         ],
         'fights' => [
             'method' => 'GET',
@@ -36,64 +36,63 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'openapi_context' => [
                 'summary' => 'Get all fights',
                 'description' => 'list all fights with this character',
-            ]
-        ]
+            ],
+        ],
     ],
     denormalizationContext: ['groups' => ['character_write']],
-    normalizationContext: ["groups" => "character_read"]
-
+    normalizationContext: ['groups' => 'character_read']
 )]
 class Character
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["character_read"])]
+    #[Groups(['character_read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["fights_read", "character_read", "character_write"])]
+    #[Groups(['fights_read', 'character_read', 'character_write'])]
     private $name;
 
-    #[ORM\Column(type: 'integer', options: ["default" => 1])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'integer', options: ['default' => 1])]
+    #[Groups(['character_read'])]
     private $rank = 1;
 
-    #[ORM\Column(type: 'integer', options: ["default" => 12])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'integer', options: ['default' => 12])]
+    #[Groups(['character_read'])]
     private $skillPoints = 12;
 
-    #[ORM\Column(type: 'integer', options: ["default" => 10])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'integer', options: ['default' => 10])]
+    #[Groups(['character_read'])]
     private $health = 10;
 
-    #[ORM\Column(type: 'integer', options: ["default" => 0])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    #[Groups(['character_read'])]
     private $attack = 0;
 
-    #[ORM\Column(type: 'integer', options: ["default" => 0])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    #[Groups(['character_read'])]
     private $defense = 0;
 
-    #[ORM\Column(type: 'integer', options: ["default" => 0])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    #[Groups(['character_read'])]
     private $magik = 0;
 
-    #[ORM\Column(type: 'datetime_immutable', options: ["default" => "CURRENT_TIMESTAMP"])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[Groups(['character_read'])]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
-    #[Groups(["character_read"])]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[Groups(['character_read'])]
     private $updatedAt;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups(["character_read"])]
+    #[Groups(['character_read'])]
     private $delay;
 
     #[ORM\ManyToMany(targetEntity: Fight::class, inversedBy: 'characters')]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups("character_read")]
+    #[Groups('character_read')]
     #[ApiSubresource(maxDepth: 1)]
     private $fights;
 

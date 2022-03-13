@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class FightController extends AbstractController {
-
+class FightController extends AbstractController
+{
     private FightService $fightService;
     private RequestStack $request;
     private CharacterRepository $characterRepository;
@@ -34,6 +34,7 @@ class FightController extends AbstractController {
     public function __invoke(): array
     {
         $postDatas = $this->request->getCurrentRequest()->toArray();
+
         return $this->fightService->initFight($postDatas);
     }
 }

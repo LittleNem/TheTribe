@@ -83,6 +83,7 @@ class CharacterRepository extends ServiceEntityRepository
         } else {
             $selectedOpponent = $charactersSelected;
         }
+
         return $selectedOpponent;
     }
 
@@ -109,11 +110,10 @@ class CharacterRepository extends ServiceEntityRepository
             $this->getPotentialOpponents($character, $rankDiff++);
         }
 
-        if ($rankDiff == 50) {
+        if (50 == $rankDiff) {
             return ['error' => 'Aucun adversaire trouvé pour ce personnage'];
         }
 
         return $result;
     }
-
 }
