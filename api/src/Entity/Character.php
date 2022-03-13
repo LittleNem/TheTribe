@@ -39,7 +39,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ]
         ]
     ],
+    denormalizationContext: ['groups' => ['character_write']],
     normalizationContext: ["groups" => "character_read"]
+
 )]
 class Character
 {
@@ -50,7 +52,7 @@ class Character
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["fights_read", "character_read"])]
+    #[Groups(["fights_read", "character_read", "character_write"])]
     private $name;
 
     #[ORM\Column(type: 'integer', options: ["default" => 1])]
