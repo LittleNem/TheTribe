@@ -49,8 +49,9 @@ const CharacterPage = (props) => {
         event.preventDefault()
         try {
             id === "new" ?
-                (await CharactersAPI.add(character)) :
-                (await CharactersAPI.edit(id, character))
+                (await CharactersAPI.add(character)
+                    .then(response => window.location.replace("/characters/" + response.id)))
+                : (await CharactersAPI.edit(id, character))
         } catch (error) {
             console.log(error.result)
         }
