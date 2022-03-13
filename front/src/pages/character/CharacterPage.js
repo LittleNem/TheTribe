@@ -25,7 +25,6 @@ const CharacterPage = (props) => {
 
     const handleChange = ({ currentTarget}) => {
         const { name, value } = currentTarget
-
         setCharacter({...character, [name] : value })
     }
 
@@ -33,7 +32,6 @@ const CharacterPage = (props) => {
         try {
             const data = (await charactersAPI
                 .getCharacter(id))
-            console.log(data)
             setCharacter(data)
         } catch (error) {
             console.log(error.result)

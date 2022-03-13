@@ -17,7 +17,7 @@ function CharacterList() {
         }
     }
     useEffect( () => {
-        fetchCharacters().then(r => console.log('ok'));
+        fetchCharacters();
     }, []);
 
     const handleDelete = async id => {
