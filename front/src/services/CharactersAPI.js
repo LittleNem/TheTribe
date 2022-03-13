@@ -2,9 +2,18 @@ import axios from "axios";
 
 const apiUrl = "https://localhost/api/"
 
-function findAll() {
+function findAll(canPlay = false) {
     return axios.get(apiUrl + "characters")
-        .then(response => response.data["hydra:member"])
+        .then(response => {
+            if (canPlay) {
+                return response.data["hydra:member"].filter(function(value, index, arr){
+                    return new Date() > new Date(value.delay) || !!!value.delay;
+                });
+            }
+
+            return response.data["hydra:member"]
+
+        })
 }
 
 function deleteCharacter(id) {

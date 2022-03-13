@@ -18,7 +18,6 @@ function LaunchGame() {
             "id": value,
             "name": options[selectedIndex].innerHTML
         })
-        console.log(character)
     }
 
     const handleSubmit = async event => {
@@ -27,7 +26,6 @@ function LaunchGame() {
             const histories = await FightAPI.launch(character.id)
             setHistories(histories[0].histories)
             setWinner(histories[0].winner.name)
-            console.log(character)
         } catch (error) {
             console.log(error.result)
         }
@@ -35,9 +33,8 @@ function LaunchGame() {
 
     const fetchCharacters = async () => {
         try {
-            const data = await CharactersAPI.findAll()
+            const data = await CharactersAPI.findAll(true)
             setCharacters(data)
-            console.log(data)
         } catch (error) {
             console.log(error)
         }
@@ -57,7 +54,7 @@ function LaunchGame() {
                 value={characters}
                 onChange={handleChange}
             />
-            <button className="btn btn-success">Play</button>
+            <button className="btn btn-success mt-3">Play</button>
         </form>
         <FightHistory
             histories={histories}
