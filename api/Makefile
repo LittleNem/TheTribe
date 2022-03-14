@@ -52,8 +52,11 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-fix-php: ## Connect to the PHP FPM container
-	@$(PHP_CONT) ./vendor/bin/php-cs-fixer fix src
+build-data: ## Database fixures & keys
+	$(PHP_CONT) bin/console doctrine:schema:drop -f --no-interaction
+	$(PHP_CONT) bin/console doctrine:schema:update -f --no-interaction
+	$(PHP_CONT) bin/console doctrine:fixtures:load --no-interaction
+	$(PHP_CONT) bin/console lexik:jwt:generate-keypair --overwrite --no-interaction
 
 
 
